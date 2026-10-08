@@ -1,0 +1,310 @@
+{% extends "base.html" %}
+
+{% block title %}
+Job Seeker Dashboard - CareerConnect
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-page">
+
+    <!-- ================= HEADER ================= -->
+
+    <div class="dashboard-header">
+
+        <div>
+            <h1>Welcome, {{ user.username }}!</h1>
+
+            <p>
+                Track your job applications and manage your career journey.
+            </p>
+        </div>
+
+        <a href="{% url 'job_list' %}" class="dashboard-button">
+            Find Jobs
+        </a>
+
+    </div>
+
+
+    <!-- ================= STATISTICS ================= -->
+
+    <div class="dashboard-stats">
+
+        <div class="stat-card">
+
+            <h3>
+                {{ applications|length }}
+            </h3>
+
+            <p>
+                Applications
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>
+                {{ applications|length }}
+            </h3>
+
+            <p>
+                Jobs Applied
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>
+                {{ applications|length }}
+            </h3>
+
+            <p>
+                Recent Applications
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= APPLICATIONS ================= -->
+
+    <div class="dashboard-section">
+
+        <div class="section-header">
+
+            <h2>
+                My Applications
+            </h2>
+
+            <a href="{% url 'job_list' %}">
+                Browse More Jobs
+            </a>
+
+        </div>
+
+
+        {% if applications %}
+
+            <div class="applications-table-wrapper">
+
+                <table class="applications-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Job
+                            </th>
+
+                            <th>
+                                Company
+                            </th>
+
+                            <th>
+                                Location
+                            </th>
+
+                            <th>
+                                Applied On
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for application in applications %}
+
+                        <tr>
+
+                            <td>
+
+                                <strong>
+                                    {{ application.job.title }}
+                                </strong>
+
+                            </td>
+
+
+                            <td>
+                                {{ application.job.company }}
+                            </td>
+
+
+                            <td>
+                                {{ application.job.location }}
+                            </td>
+
+
+                            <td>
+                                {{ application.applied_at|date:"d M Y" }}
+                            </td>
+
+
+                            <td>
+
+                                {% if application.status == "Pending" %}
+
+                                    <span class="status pending">
+                                        Pending
+                                    </span>
+
+                                {% elif application.status == "Shortlisted" %}
+
+                                    <span class="status shortlisted">
+                                        Shortlisted
+                                    </span>
+
+                                {% elif application.status == "Rejected" %}
+
+                                    <span class="status rejected">
+                                        Rejected
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                <a href="{% url 'job_detail' application.job.id %}"
+                                   class="view-button">
+
+                                    View Job
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        {% else %}
+
+            <!-- No Applications -->
+
+            <div class="empty-dashboard">
+
+                <div class="empty-icon">
+                    📄
+                </div>
+
+                <h3>
+                    No Applications Yet
+                </h3>
+
+                <p>
+                    You haven't applied for any jobs yet.
+                    Start exploring opportunities today.
+                </p>
+
+                <a href="{% url 'job_list' %}"
+                   class="dashboard-button">
+
+                    Find Jobs
+
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- ================= QUICK ACTIONS ================= -->
+
+    <div class="quick-actions">
+
+        <h2>
+            Quick Actions
+        </h2>
+
+
+        <div class="action-grid">
+
+            <a href="{% url 'job_list' %}"
+               class="action-card">
+
+                <span>
+                    🔍
+                </span>
+
+                <h3>
+                    Find Jobs
+                </h3>
+
+                <p>
+                    Search for your next career opportunity.
+                </p>
+
+            </a>
+
+
+            <a href="{% url 'profile' %}"
+               class="action-card">
+
+                <span>
+                    👤
+                </span>
+
+                <h3>
+                    Update Profile
+                </h3>
+
+                <p>
+                    Keep your profile information up to date.
+                </p>
+
+            </a>
+
+
+            <a href="{% url 'job_list' %}"
+               class="action-card">
+
+                <span>
+                    💼
+                </span>
+
+                <h3>
+                    Explore Opportunities
+                </h3>
+
+                <p>
+                    Discover jobs that match your skills.
+                </p>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

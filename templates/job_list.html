@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+
+{% block title %}
+Find Jobs - CareerConnect
+{% endblock %}
+
+{% block content %}
+
+<section class="jobs-page">
+
+    <!-- ================= PAGE HEADER ================= -->
+
+    <div class="jobs-header">
+
+        <h1>Find Your Dream Job</h1>
+
+        <p>
+            Search and explore the latest job opportunities.
+        </p>
+
+    </div>
+
+
+    <!-- ================= SEARCH SECTION ================= -->
+
+    <div class="job-search-box">
+
+        <form method="GET"
+              action="{% url 'job_list' %}"
+              class="job-search-form">
+
+            <input type="text"
+                   name="q"
+                   value="{{ query }}"
+                   placeholder="Job title, company or skill">
+
+            <input type="text"
+                   name="location"
+                   value="{{ location }}"
+                   placeholder="Location">
+
+            <input type="text"
+                   name="category"
+                   value="{{ category }}"
+                   placeholder="Category">
+
+            <button type="submit">
+                Search
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- ================= RESULTS ================= -->
+
+    <div class="jobs-result">
+
+        <div class="result-header">
+
+            <h2>
+                Available Jobs
+            </h2>
+
+            <p>
+                {{ jobs|length }} job{{ jobs|length|pluralize }} found
+            </p>
+
+        </div>
+
+
+        <div class="job-grid">
+
+            {% for job in jobs %}
+
+            <div class="job-card">
+
+                <!-- Job Header -->
+
+                <div class="job-header">
+
+                    <h3>
+                        {{ job.title }}
+                    </h3>
+
+                    <span class="job-type">
+                        {{ job.job_type }}
+                    </span>
+
+                </div>
+
+
+                <!-- Company -->
+
+                <p class="company-name">
+                    🏢 {{ job.company }}
+                </p>
+
+
+                <!-- Location -->
+
+                <p class="job-info">
+                    📍 {{ job.location }}
+                </p>
+
+
+                <!-- Category -->
+
+                <p class="job-info">
+                    🏷 {{ job.category }}
+                </p>
+
+
+                <!-- Salary -->
+
+                {% if job.salary %}
+
+                    <p class="job-info">
+                        💰 {{ job.salary }}
+                    </p>
+
+                {% endif %}
+
+
+                <!-- Description -->
+
+                <p class="job-description">
+
+                    {{ job.description|truncatewords:20 }}
+
+                </p>
+
+
+                <!-- Posted Date -->
+
+                <p class="posted-date">
+
+                    Posted:
+                    {{ job.created_at|date:"d M Y" }}
+
+                </p>
+
+
+                <!-- View Details -->
+
+                <a href="{% url 'job_detail' job.id %}"
+                   class="view-btn">
+
+                    View Details
+
+                </a>
+
+            </div>
+
+            {% empty %}
+
+            <!-- No Jobs -->
+
+            <div class="no-jobs">
+
+                <h2>
+                    No Jobs Found
+                </h2>
+
+                <p>
+                    We couldn't find any jobs matching your search.
+                </p>
+
+                <a href="{% url 'job_list' %}"
+                   class="view-btn">
+
+                    View All Jobs
+
+                </a>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

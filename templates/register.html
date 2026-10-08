@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block title %}
+Register - CareerConnect
+{% endblock %}
+
+{% block content %}
+
+<section class="auth-section">
+
+    <div class="auth-container">
+
+        <!-- Header -->
+
+        <div class="auth-header">
+
+            <h1>Create Account</h1>
+
+            <p>
+                Join CareerConnect and start your career journey
+            </p>
+
+        </div>
+
+
+        <!-- Registration Form -->
+
+        <form method="POST"
+              class="auth-form">
+
+            {% csrf_token %}
+
+
+            <!-- Display Form Errors -->
+
+            {% if form.non_field_errors %}
+
+                <div class="form-error">
+
+                    {% for error in form.non_field_errors %}
+
+                        <p>{{ error }}</p>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- Username -->
+
+            <div class="form-group">
+
+                <label for="{{ form.username.id_for_label }}">
+                    Username
+                </label>
+
+                {{ form.username }}
+
+                {% for error in form.username.errors %}
+
+                    <p class="field-error">
+                        {{ error }}
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Email -->
+
+            <div class="form-group">
+
+                <label for="{{ form.email.id_for_label }}">
+                    Email Address
+                </label>
+
+                {{ form.email }}
+
+                {% for error in form.email.errors %}
+
+                    <p class="field-error">
+                        {{ error }}
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Password -->
+
+            <div class="form-group">
+
+                <label for="{{ form.password1.id_for_label }}">
+                    Password
+                </label>
+
+                {{ form.password1 }}
+
+                {% for error in form.password1.errors %}
+
+                    <p class="field-error">
+                        {{ error }}
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Confirm Password -->
+
+            <div class="form-group">
+
+                <label for="{{ form.password2.id_for_label }}">
+                    Confirm Password
+                </label>
+
+                {{ form.password2 }}
+
+                {% for error in form.password2.errors %}
+
+                    <p class="field-error">
+                        {{ error }}
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Account Type -->
+
+            <div class="form-group">
+
+                <label>
+                    Account Type
+                </label>
+
+                <div class="role-options">
+
+                    {% for radio in form.role %}
+
+                        <label class="role-option">
+
+                            {{ radio.tag }}
+
+                            <span>
+                                {{ radio.choice_label }}
+                            </span>
+
+                        </label>
+
+                    {% endfor %}
+
+                </div>
+
+
+                {% for error in form.role.errors %}
+
+                    <p class="field-error">
+                        {{ error }}
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Register Button -->
+
+            <button type="submit"
+                    class="auth-button">
+
+                Create Account
+
+            </button>
+
+        </form>
+
+
+        <!-- Login Link -->
+
+        <div class="auth-footer">
+
+            <p>
+                Already have an account?
+            </p>
+
+            <a href="{% url 'login' %}">
+                Login here
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

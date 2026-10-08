@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}
+Login - CareerConnect
+{% endblock %}
+
+{% block content %}
+
+<section class="auth-section">
+
+    <div class="auth-container">
+
+        <div class="auth-header">
+
+            <h1>Welcome Back</h1>
+
+            <p>
+                Login to your CareerConnect account
+            </p>
+
+        </div>
+
+
+        <!-- Login Form -->
+
+        <form method="POST"
+              class="auth-form">
+
+            {% csrf_token %}
+
+            <!-- Username -->
+
+            <div class="form-group">
+
+                <label for="id_username">
+                    Username
+                </label>
+
+                <input type="text"
+                       name="username"
+                       id="id_username"
+                       placeholder="Enter your username"
+                       required
+                       autofocus>
+
+            </div>
+
+
+            <!-- Password -->
+
+            <div class="form-group">
+
+                <label for="id_password">
+                    Password
+                </label>
+
+                <input type="password"
+                       name="password"
+                       id="id_password"
+                       placeholder="Enter your password"
+                       required>
+
+            </div>
+
+
+            <!-- Login Errors -->
+
+            {% if form.errors %}
+
+                <div class="form-error">
+
+                    <p>
+                        Username or password is incorrect.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- Login Button -->
+
+            <button type="submit"
+                    class="auth-button">
+
+                Login
+
+            </button>
+
+        </form>
+
+
+        <!-- Register Link -->
+
+        <div class="auth-footer">
+
+            <p>
+                Don't have an account?
+            </p>
+
+            <a href="{% url 'register' %}">
+                Create an account
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

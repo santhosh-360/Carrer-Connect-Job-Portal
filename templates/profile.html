@@ -1,0 +1,285 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Profile - CareerConnect
+{% endblock %}
+
+{% block content %}
+
+<section class="profile-page">
+
+    <div class="profile-container">
+
+        <!-- ================= PROFILE HEADER ================= -->
+
+        <div class="profile-header">
+
+            <div class="profile-avatar">
+                {{ user.username|first|upper }}
+            </div>
+
+            <div class="profile-info">
+
+                <h1>
+                    {{ user.username }}
+                </h1>
+
+                <p>
+                    {{ user.email }}
+                </p>
+
+                <span class="profile-role">
+
+                    {% if user.profile.role == "recruiter" %}
+                        Recruiter
+                    {% else %}
+                        Job Seeker
+                    {% endif %}
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= PROFILE FORM ================= -->
+
+        <div class="profile-card">
+
+            <div class="profile-card-header">
+
+                <h2>
+                    Profile Information
+                </h2>
+
+                <p>
+                    Update your personal and professional information.
+                </p>
+
+            </div>
+
+
+            <form method="POST"
+                  class="profile-form">
+
+                {% csrf_token %}
+
+
+                <!-- Form Errors -->
+
+                {% if form.non_field_errors %}
+
+                    <div class="form-error">
+
+                        {% for error in form.non_field_errors %}
+
+                            <p>
+                                {{ error }}
+                            </p>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- Phone -->
+
+                <div class="form-group">
+
+                    <label for="{{ form.phone.id_for_label }}">
+                        Phone Number
+                    </label>
+
+                    {{ form.phone }}
+
+                    {% for error in form.phone.errors %}
+
+                        <p class="field-error">
+                            {{ error }}
+                        </p>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- Location -->
+
+                <div class="form-group">
+
+                    <label for="{{ form.location.id_for_label }}">
+                        Location
+                    </label>
+
+                    {{ form.location }}
+
+                    {% for error in form.location.errors %}
+
+                        <p class="field-error">
+                            {{ error }}
+                        </p>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- Bio -->
+
+                <div class="form-group">
+
+                    <label for="{{ form.bio.id_for_label }}">
+                        About Me
+                    </label>
+
+                    {{ form.bio }}
+
+                    <small>
+                        Tell employers about yourself,
+                        your skills and experience.
+                    </small>
+
+                    {% for error in form.bio.errors %}
+
+                        <p class="field-error">
+                            {{ error }}
+                        </p>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- Company Name -->
+
+                <div class="form-group">
+
+                    <label for="{{ form.company_name.id_for_label }}">
+                        Company Name
+                    </label>
+
+                    {{ form.company_name }}
+
+                    {% if user.profile.role == "recruiter" %}
+
+                        <small>
+                            Enter the name of your company.
+                        </small>
+
+                    {% endif %}
+
+                    {% for error in form.company_name.errors %}
+
+                        <p class="field-error">
+                            {{ error }}
+                        </p>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- ================= BUTTONS ================= -->
+
+                <div class="profile-buttons">
+
+                    <button type="submit"
+                            class="submit-button">
+
+                        Save Changes
+
+                    </button>
+
+                    <a href="{% url 'dashboard' %}"
+                       class="cancel-button">
+
+                        Cancel
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- ================= ACCOUNT INFORMATION ================= -->
+
+        <div class="account-card">
+
+            <h2>
+                Account Information
+            </h2>
+
+            <div class="account-details">
+
+                <div>
+
+                    <strong>
+                        Username
+                    </strong>
+
+                    <p>
+                        {{ user.username }}
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Email
+                    </strong>
+
+                    <p>
+                        {{ user.email }}
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Account Type
+                    </strong>
+
+                    <p>
+
+                        {% if user.profile.role == "recruiter" %}
+                            Recruiter
+                        {% else %}
+                            Job Seeker
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Member Since
+                    </strong>
+
+                    <p>
+                        {{ user.date_joined|date:"d M Y" }}
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

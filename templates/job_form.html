@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ title }} - CareerConnect
+{% endblock %}
+
+{% block content %}
+
+<section class="job-form-page">
+
+    <div class="job-form-container">
+
+        <!-- ================= HEADER ================= -->
+
+        <div class="form-header">
+
+            <h1>
+                {{ title }}
+            </h1>
+
+            <p>
+                {% if title == "Post a Job" %}
+                    Create a new job opportunity for job seekers.
+                {% else %}
+                    Update the details of your job posting.
+                {% endif %}
+            </p>
+
+        </div>
+
+
+        <!-- ================= JOB FORM ================= -->
+
+        <form method="POST"
+              class="job-form">
+
+            {% csrf_token %}
+
+
+            <!-- General Errors -->
+
+            {% if form.non_field_errors %}
+
+                <div class="form-error">
+
+                    {% for error in form.non_field_errors %}
+
+                        <p>
+                            {{ error }}
+                        </p>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- Job Title -->
+
+            <div class="form-group">
+
+                <label for="{{ form.title.id_for_label }}">
+                    Job Title
+                </label>
+
+                {{ form.title }}
+
+                {% for error in form.title.errors %}
+
+                    <p class="field-error">
+                        {{ error }}
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Company -->
+
+            <div class="form-group">
+
+                <label for="{{ form.company.id_for_label }}">
+                    Company Name
+                </label>
+
+                {{ form.company }}
+
+                {% for error in form.company.errors %}
+
+                    <p class="field-error">
+                        {{ error }}
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Location -->
+
+            <div class="form-group">
+
+                <label for="{{ form.location.id_for_label }}">
+                    Location
+                </label>
+
+                {{ form.location }}
+
+                {% for error in form.location.errors %}
+
+                    <p class="field-error">
+                        {{ error }}
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Category -->
+
+            <div class="form-group">
+
+                <label for="{{ form.category.id_for_label }}">
+                    Job Category
+                </label>
+
+                {{ form.category }}
+
+                {% for error in form.category.errors %}
+
+                    <p class="field-error">
+                        {{ error }}
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Job Type -->
+
+            <div class="form-group">
+
+                <label for="{{ form.job_type.id_for_label }}">
+                    Job Type
+                </label>
+
+                {{ form.job_type }}
+
+                {% for error in form.job_type.errors %}
+
+                    <p class="field-error">
+                        {{ error }}
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Salary -->
+
+            <div class="form-group">
+
+                <label for="{{ form.salary.id_for_label }}">
+                    Salary
+                </label>
+
+                {{ form.salary }}
+
+                <small>
+                    Example: ₹25,000 - ₹40,000 per month
+                </small>
+
+                {% for error in form.salary.errors %}
+
+                    <p class="field-error">
+                        {{ error }}
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Description -->
+
+            <div class="form-group">
+
+                <label for="{{ form.description.id_for_label }}">
+                    Job Description
+                </label>
+
+                {{ form.description }}
+
+                {% for error in form.description.errors %}
+
+                    <p class="field-error">
+                        {{ error }}
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Requirements -->
+
+            <div class="form-group">
+
+                <label for="{{ form.requirements.id_for_label }}">
+                    Job Requirements
+                </label>
+
+                {{ form.requirements }}
+
+                {% for error in form.requirements.errors %}
+
+                    <p class="field-error">
+                        {{ error }}
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- ================= BUTTONS ================= -->
+
+            <div class="form-buttons">
+
+                <button type="submit"
+                        class="submit-button">
+
+                    {% if title == "Post a Job" %}
+                        Post Job
+                    {% else %}
+                        Update Job
+                    {% endif %}
+
+                </button>
+
+
+                <a href="{% url 'dashboard' %}"
+                   class="cancel-button">
+
+                    Cancel
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

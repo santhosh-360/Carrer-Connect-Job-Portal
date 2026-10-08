@@ -1,0 +1,231 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}
+        CareerConnect
+        {% endblock %}
+    </title>
+
+    <!-- CSS -->
+    <link rel="stylesheet"
+          href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <div class="navbar-container">
+
+            <!-- Logo -->
+
+            <a href="{% url 'home' %}"
+               class="logo">
+
+                CareerConnect<span>Job Portal</span>
+
+            </a>
+
+
+            <!-- Navigation -->
+
+            <nav class="nav-links">
+
+                <a href="{% url 'home' %}">
+                    Home
+                </a>
+
+                <a href="{% url 'job_list' %}">
+                    Find Jobs
+                </a>
+
+
+                {% if user.is_authenticated %}
+
+                    <a href="{% url 'dashboard' %}">
+                        Dashboard
+                    </a>
+
+                    <a href="{% url 'profile' %}">
+                        Profile
+                    </a>
+
+
+                    {% if user.profile.role == "recruiter" %}
+
+                        <a href="{% url 'add_job' %}">
+                            Post Job
+                        </a>
+
+                    {% endif %}
+
+
+                    <!-- Logout -->
+
+                    <form method="POST"
+                          action="{% url 'logout' %}"
+                          class="logout-form">
+
+                        {% csrf_token %}
+
+                        <button type="submit"
+                                class="logout-button">
+
+                            Logout
+
+                        </button>
+
+                    </form>
+
+
+                {% else %}
+
+                    <a href="{% url 'login' %}">
+                        Login
+                    </a>
+
+                    <a href="{% url 'register' %}"
+                       class="register-button">
+
+                        Register
+
+                    </a>
+
+                {% endif %}
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= MESSAGES ================= -->
+
+    {% if messages %}
+
+        <div class="messages-container">
+
+            {% for message in messages %}
+
+                <div class="message {{ message.tags }}">
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main>
+
+        {% block content %}
+
+        {% endblock %}
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-about">
+
+                <h2>
+                    Career<span>Connect</span>
+                </h2>
+
+                <p>
+                    Find your dream job and connect
+                    with the right opportunities.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <h3>
+                    Quick Links
+                </h3>
+
+                <a href="{% url 'home' %}">
+                    Home
+                </a>
+
+                <a href="{% url 'job_list' %}">
+                    Find Jobs
+                </a>
+
+                {% if user.is_authenticated %}
+
+                    <a href="{% url 'dashboard' %}">
+                        Dashboard
+                    </a>
+
+                {% else %}
+
+                    <a href="{% url 'login' %}">
+                        Login
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="footer-contact">
+
+                <h3>
+                    CareerConnect
+                </h3>
+
+                <p>
+                    Build your career.
+                </p>
+
+                <p>
+                    Find your opportunity.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 CareerConnect.
+                All Rights Reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
+</body>
+
+</html>

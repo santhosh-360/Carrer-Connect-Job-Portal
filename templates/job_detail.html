@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ job.title }} - CareerConnect
+{% endblock %}
+
+{% block content %}
+
+<section class="job-detail-page">
+
+    <!-- ================= JOB HEADER ================= -->
+
+    <div class="job-detail-header">
+
+        <div>
+
+            <p class="job-category">
+                {{ job.category }}
+            </p>
+
+            <h1>
+                {{ job.title }}
+            </h1>
+
+            <p class="company-name">
+                🏢 {{ job.company }}
+            </p>
+
+        </div>
+
+        <span class="job-type">
+            {{ job.job_type }}
+        </span>
+
+    </div>
+
+
+    <!-- ================= JOB INFORMATION ================= -->
+
+    <div class="job-detail-container">
+
+        <!-- Main Content -->
+
+        <div class="job-main">
+
+            <!-- Description -->
+
+            <div class="detail-section">
+
+                <h2>
+                    Job Description
+                </h2>
+
+                <p>
+                    {{ job.description|linebreaks }}
+                </p>
+
+            </div>
+
+
+            <!-- Requirements -->
+
+            <div class="detail-section">
+
+                <h2>
+                    Requirements
+                </h2>
+
+                <p>
+                    {{ job.requirements|linebreaks }}
+                </p>
+
+            </div>
+
+
+            <!-- Job Details -->
+
+            <div class="detail-section">
+
+                <h2>
+                    Job Details
+                </h2>
+
+                <div class="job-info-list">
+
+                    <p>
+                        <strong>📍 Location:</strong>
+                        {{ job.location }}
+                    </p>
+
+                    <p>
+                        <strong>🏷 Category:</strong>
+                        {{ job.category }}
+                    </p>
+
+                    <p>
+                        <strong>💼 Job Type:</strong>
+                        {{ job.job_type }}
+                    </p>
+
+                    {% if job.salary %}
+
+                    <p>
+                        <strong>💰 Salary:</strong>
+                        {{ job.salary }}
+                    </p>
+
+                    {% endif %}
+
+                    <p>
+                        <strong>📅 Posted:</strong>
+                        {{ job.created_at|date:"d M Y" }}
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= SIDE PANEL ================= -->
+
+        <aside class="job-sidebar">
+
+            <div class="apply-card">
+
+                <h2>
+                    Interested in this job?
+                </h2>
+
+
+                {% if user.is_authenticated %}
+
+                    {% if user.profile.role == "seeker" %}
+
+                        {% if already_applied %}
+
+                            <div class="already-applied">
+
+                                <p>
+                                    ✓ You have already applied
+                                    for this job.
+                                </p>
+
+                            </div>
+
+                        {% else %}
+
+                            <a href="{% url 'apply_job' job.id %}"
+                               class="apply-button">
+
+                                Apply Now
+
+                            </a>
+
+                        {% endif %}
+
+                    {% else %}
+
+                        <p class="login-message">
+                            Recruiters cannot apply for jobs.
+                        </p>
+
+                    {% endif %}
+
+                {% else %}
+
+                    <p class="login-message">
+
+                        Please login as a Job Seeker
+                        to apply for this position.
+
+                    </p>
+
+                    <a href="{% url 'login' %}"
+                       class="apply-button">
+
+                        Login to Apply
+
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- Company Information -->
+
+            <div class="company-card">
+
+                <h2>
+                    About the Company
+                </h2>
+
+                <h3>
+                    {{ job.company }}
+                </h3>
+
+                <p>
+                    This job opportunity was posted by
+                    {{ job.company }} on CareerConnect.
+                </p>
+
+            </div>
+
+
+            <!-- Back Button -->
+
+            <a href="{% url 'job_list' %}"
+               class="back-button">
+
+                ← Back to Jobs
+
+            </a>
+
+        </aside>
+
+    </div>
+
+</section>
+
+{% endblock %}

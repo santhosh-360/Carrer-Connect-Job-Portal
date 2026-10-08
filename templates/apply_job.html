@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block title %}
+Apply for {{ job.title }} - CareerConnect
+{% endblock %}
+
+{% block content %}
+
+<section class="apply-page">
+
+    <div class="apply-container">
+
+        <!-- ================= JOB INFORMATION ================= -->
+
+        <div class="apply-job-info">
+
+            <p class="job-category">
+                {{ job.category }}
+            </p>
+
+            <h1>
+                Apply for {{ job.title }}
+            </h1>
+
+            <h3>
+                🏢 {{ job.company }}
+            </h3>
+
+            <p>
+                📍 {{ job.location }}
+            </p>
+
+            <p>
+                💼 {{ job.job_type }}
+            </p>
+
+            {% if job.salary %}
+
+                <p>
+                    💰 {{ job.salary }}
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- ================= APPLICATION FORM ================= -->
+
+        <div class="application-card">
+
+            <h2>
+                Submit Your Application
+            </h2>
+
+            <p class="form-description">
+                Fill in the details below and upload your resume.
+            </p>
+
+
+            <form method="POST"
+                  enctype="multipart/form-data"
+                  class="application-form">
+
+                {% csrf_token %}
+
+
+                <!-- Form Errors -->
+
+                {% if form.non_field_errors %}
+
+                    <div class="form-error">
+
+                        {% for error in form.non_field_errors %}
+
+                            <p>
+                                {{ error }}
+                            </p>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- Resume -->
+
+                <div class="form-group">
+
+                    <label for="{{ form.resume.id_for_label }}">
+
+                        Resume
+
+                    </label>
+
+                    {{ form.resume }}
+
+                    <small>
+                        Accepted formats: PDF, DOC, DOCX.
+                        Maximum size: 5 MB.
+                    </small>
+
+
+                    {% for error in form.resume.errors %}
+
+                        <p class="field-error">
+                            {{ error }}
+                        </p>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- Cover Letter -->
+
+                <div class="form-group">
+
+                    <label for="{{ form.cover_letter.id_for_label }}">
+
+                        Cover Letter
+
+                    </label>
+
+                    {{ form.cover_letter }}
+
+                    <small>
+                        Tell the recruiter why you are suitable
+                        for this position.
+                    </small>
+
+
+                    {% for error in form.cover_letter.errors %}
+
+                        <p class="field-error">
+                            {{ error }}
+                        </p>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- Submit -->
+
+                <button type="submit"
+                        class="apply-submit-button">
+
+                    Submit Application
+
+                </button>
+
+            </form>
+
+
+            <!-- Cancel -->
+
+            <a href="{% url 'job_detail' job.id %}"
+               class="cancel-button">
+
+                Cancel
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

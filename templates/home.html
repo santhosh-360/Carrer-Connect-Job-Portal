@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+
+{% block title %}
+Home - CareerConnect
+{% endblock %}
+
+{% block content %}
+
+<!-- ================= HERO SECTION ================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <p class="hero-subtitle">
+            FIND YOUR DREAM JOB
+        </p>
+
+        <h1>
+            Connect with the Best
+            <span>Career Opportunities</span>
+        </h1>
+
+        <p class="hero-text">
+            Search thousands of jobs from top companies.
+            Apply online and build your future with CareerConnect.
+        </p>
+
+        <!-- Search Form -->
+
+        <form method="GET"
+              action="{% url 'job_list' %}"
+              class="search-form">
+
+            <input type="text"
+                   name="q"
+                   placeholder="Job title, company or skill">
+
+            <input type="text"
+                   name="location"
+                   placeholder="Location">
+
+            <button type="submit">
+                Search Jobs
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FEATURES SECTION ================= -->
+
+<section class="features">
+
+    <div class="feature-card">
+
+        <h3>🔍 Search Jobs</h3>
+
+        <p>
+            Find jobs based on skills,
+            company, category, and location.
+        </p>
+
+    </div>
+
+    <div class="feature-card">
+
+        <h3>📄 Apply Online</h3>
+
+        <p>
+            Upload your resume and apply
+            directly through the portal.
+        </p>
+
+    </div>
+
+    <div class="feature-card">
+
+        <h3>🏢 Recruiters</h3>
+
+        <p>
+            Companies can post jobs
+            and manage applicants easily.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ================= LATEST JOBS ================= -->
+
+<section class="latest-jobs">
+
+    <div class="section-title">
+
+        <h2>Latest Jobs</h2>
+
+        <p>
+            Explore recently posted opportunities
+        </p>
+
+    </div>
+
+    <div class="job-grid">
+
+        {% for job in jobs %}
+
+        <div class="job-card">
+
+            <div class="job-header">
+
+                <h3>
+                    {{ job.title }}
+                </h3>
+
+                <span class="job-type">
+                    {{ job.job_type }}
+                </span>
+
+            </div>
+
+            <p class="company-name">
+                {{ job.company }}
+            </p>
+
+            <p>
+                📍 {{ job.location }}
+            </p>
+
+            <p>
+                🏷 {{ job.category }}
+            </p>
+
+            <p>
+                💰 {{ job.salary }}
+            </p>
+
+            <a href="{% url 'job_detail' job.id %}"
+               class="view-btn">
+
+                View Details
+
+            </a>
+
+        </div>
+
+        {% empty %}
+
+        <div class="no-jobs">
+
+            <h3>
+                No Jobs Available
+            </h3>
+
+            <p>
+                Recruiters haven't posted jobs yet.
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+<!-- ================= HOW IT WORKS ================= -->
+
+<section class="how-it-works">
+
+    <div class="section-title">
+
+        <h2>How It Works</h2>
+
+    </div>
+
+    <div class="steps">
+
+        <div class="step-card">
+
+            <h3>1. Register</h3>
+
+            <p>
+                Create a Job Seeker or Recruiter account.
+            </p>
+
+        </div>
+
+        <div class="step-card">
+
+            <h3>2. Search Jobs</h3>
+
+            <p>
+                Find jobs matching your skills.
+            </p>
+
+        </div>
+
+        <div class="step-card">
+
+            <h3>3. Apply</h3>
+
+            <p>
+                Upload resume and apply online.
+            </p>
+
+        </div>
+
+        <div class="step-card">
+
+            <h3>4. Get Hired</h3>
+
+            <p>
+                Recruiters shortlist and contact candidates.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CALL TO ACTION ================= -->
+
+<section class="cta">
+
+    <h2>
+        Ready to Start Your Career Journey?
+    </h2>
+
+    <p>
+        Join CareerConnect today and discover
+        amazing job opportunities.
+    </p>
+
+    {% if not user.is_authenticated %}
+
+        <a href="{% url 'register' %}"
+           class="cta-btn">
+
+            Create Account
+
+        </a>
+
+    {% else %}
+
+        <a href="{% url 'job_list' %}"
+           class="cta-btn">
+
+            Find Jobs
+
+        </a>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}
